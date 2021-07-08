@@ -25,8 +25,8 @@ public class ChampionshipController {
         return service.newChampionship(newChampionship);
     }
 
-    @PostMapping()
-    public ResponseEntity startChampionship(long id) {
+    @PostMapping({"/{id}"})
+    public ResponseEntity startChampionship(@PathVariable(value = "id") long id) {
         return service.startChampionship(id);
     }
 

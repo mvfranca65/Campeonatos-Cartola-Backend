@@ -1,8 +1,10 @@
 package com.cartola.group.Service.Impl;
 
 import com.cartola.group.Entity.ChampionshipEntity;
+import com.cartola.group.Entity.ClashesEntity;
 import com.cartola.group.Entity.ParticipantsEntity;
 import com.cartola.group.Repository.ChampionshipRepository;
+import com.cartola.group.Repository.ClashesRepository;
 import com.cartola.group.Repository.ParticipantsRepository;
 import com.cartola.group.Service.ChampionshipService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ public class ChampionshipServiceImpl implements ChampionshipService {
 
     @Autowired
     ParticipantsRepository repositoryParticipants;
+
+    @Autowired
+    ClashesRepository clashesRepository;
 
     @Override
     public ResponseEntity newChampionship(ChampionshipEntity newChampionship) {
@@ -65,43 +70,43 @@ public class ChampionshipServiceImpl implements ChampionshipService {
                 //Embaralhar a ordenação
                 Collections.shuffle(result);
 
-                List<Object> listagemConfrontos = new ArrayList<>();
+                List<ClashesEntity> todosConfrontos = new ArrayList<>();
 
-                for(int i = 0; i < rodadas; i++) {
+                //Todos os confrontos que devem ter no campeonato
+                for(int i = 0; i <= rodadas; i++) {
 
-                    for(int x = 0; x < rodadas; i++) {
+                    int round = 1;
 
-                        listagemConfrontos.add(result.get(i));
+                    for(int x = 0; x <= rodadas; x++) {
 
-                        if(i != x) {
-                            listagemConfrontos.add(result.get(x));
+                        ClashesEntity clashesEntity = new ClashesEntity();
+
+                        clashesEntity.setTeam_one(result.get(i).getName());
+                        clashesEntity.setName_user_team_one(result.get(i).getUser());
+                        clashesEntity.setSlug_team_one("slug " + i);
+                        clashesEntity.setImage_user_team_one("image " + i);
+                        clashesEntity.setRound_score_team_one("00.00");
+
+                        if(i != x && x > i) {
+//                            clashesEntity.setRound(round);
+
+                            clashesEntity.setTeam_two(result.get(x).getName());
+                            clashesEntity.setName_user_team_two(result.get(x).getUser());
+                            clashesEntity.setSlug_team_two("slug");
+                            clashesEntity.setImage_user_team_two("image");
+                            clashesEntity.setRound_score_team_two("00.00");
+
+                            todosConfrontos.add(clashesEntity);
+
+//                            clashesRepository.save(clashesEntity);
+                            round++;
                         }
 
                     }
 
                 }
 
-                //listagemConfrontos já tem todos os confrontos
-                List<Object> ordenarConfrontos = new ArrayList<>();
-                List<Object> confrontos = new ArrayList<>();
-
-                int i = 0;
-                int x = 2;
-
-                for(i = i; i < x; i++) {
-                    ordenarConfrontos.add(listagemConfrontos.get(i));
-
-                    if(i == x) {
-                        i = i + 2;
-                        x = x + 2;
-                    }
-                }
-
-                confrontos.add(ordenarConfrontos);
-
-
-
-
+                //ORGANIZAR CONFRONTOS POR RODADA
 
             }
 
