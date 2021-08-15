@@ -31,7 +31,8 @@ public class ChampionshipEntity {
 
     private Boolean started;
 
-    private String image;
+    private byte[] image;
+
     private String description;
 
     private long id_league;
@@ -77,11 +78,11 @@ public class ChampionshipEntity {
         this.admin_user = admin_user;
     }
 
-    public String getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 

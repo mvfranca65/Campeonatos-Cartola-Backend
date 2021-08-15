@@ -18,7 +18,7 @@ public class ParticipantsController {
     ParticipantsService service;
 
     @PostMapping({"/new"})
-    @ApiOperation(value = "Novo participante")
+    @ApiOperation(value = "Solicitar participação de um campeonato em especifico.")
     public ResponseEntity newParticipateChampionship(@RequestBody ParticipantsEntity body) {
         return service.newParticipateChampionship(body);
     }

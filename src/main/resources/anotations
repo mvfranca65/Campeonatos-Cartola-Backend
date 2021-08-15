@@ -1,0 +1,27 @@
+- Somente o admin da liga pode criar o campeonato (incluir regra) //championship/new
+- Quando chamar as Ligas (globo/leagues), retornar também se o usuario é admin ou não de cada liga.
+
+- No momento de criar o campeonato, o 'started' deve salvar como 'false' no padrão.
+
+- O serviço que busca o campeonato por ID (/championship/{id}) deve retornar também se o usuário que está buscando é admin do mesmo.
+
+- Na chamada do serviço de buscar um campeonato por ID (championship/{id}) deve retornar se quem está fazendo a requisição é admin ou não.
+- Na chamado do serviço que retorna todas as solicitações de participação de um campeonato em especifico (/participants/new), incluir o dado "nome_campeonato".
+- Na chamado do serviço que retorna todas as solicitações de participação de um campeonato em especifico, pensar como retornar de todos os campeonatos, e não somente de 1 em especifico.
+- Não excluir um campeonato, somente deixa-lo inativo.
+
+- Iniciar campeonato
+    . Alterar o 'started' do campeonato para true.
+    - Gerar os confrontos em cada rodada
+        . Mesclar com API do Cartola para mesclar image, usuario e pontuação de cada participante.
+
+- Criar API para buscar os confrontos e dados por rodada.
+
+- Serviço que retorne os campeonatos finalizados e os campeoes da liga em especifico
+
+- Estruturas avisos, pois deve chegar individualmente aos usuarios.
+
+PENDENCIAS:
+    SCRIP PARA ENCERRAR RODADA E ATUALIZAR TABELA DO CAMPEONATO
+    SCRIP PARA QUANDO TIVER ENCERRADO TODAS AS RODADAS, ENCERRAR O CAMPEONATO E MOSTRAR O CAMPEÃO.
+

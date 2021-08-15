@@ -1,15 +1,14 @@
 package com.cartola.group.Service.feign;
 
-import feign.Headers;
+import com.cartola.group.DTO.Request.Login.LoginRequestBody;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "leagues", url = "https://api.cartolafc.globo.com/auth")
+@FeignClient(name = "login", url = "https://login.globo.com/api")
 public interface GloboFeign {
 
-    @Headers({
-            "User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"})
-    @GetMapping("/ligas")
-    Object getLeagues();
+    @PostMapping("/authentication")
+    Object authentication(@RequestBody LoginRequestBody body);
 
 }

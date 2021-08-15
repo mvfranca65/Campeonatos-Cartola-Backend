@@ -25,6 +25,7 @@ public class ParticipantsEntity {
 
     private long id_championship;
 
+    @Enumerated(value = EnumType.STRING)
     private DisputePermission dispute_permission;
 
     public long getId() {

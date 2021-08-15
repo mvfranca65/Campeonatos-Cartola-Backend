@@ -1,13 +1,13 @@
 package com.cartola.group.Service;
 
 import com.cartola.group.DTO.Request.Login.LoginRequestBody;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface GloboService {
 
-    ResponseEntity authentication(LoginRequestBody body);
+//    ResponseEntity authentication(LoginRequestBody body);
 
-    ResponseEntity getLeagues(String token);
+    ResponseEntity getLeagues(String token) throws UnirestException;
 
 }

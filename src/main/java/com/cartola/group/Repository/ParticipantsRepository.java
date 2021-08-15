@@ -10,10 +10,10 @@ import java.util.List;
 @Repository
 public interface ParticipantsRepository extends JpaRepository<ParticipantsEntity, Long> {
 
-    @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id AND DISPUTE_PERMISSION = TRUE", nativeQuery = true)
+    @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id AND DISPUTE_PERMISSION = 'APROVADO'", nativeQuery = true)
     List<ParticipantsEntity> findParticipantsChampionship(long id);
 
-    @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id AND DISPUTE_PERMISSION = FALSE", nativeQuery = true)
+    @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id AND DISPUTE_PERMISSION = 'AGUARDANDO_APROVACAO'", nativeQuery = true)
     List<ParticipantsEntity> findRequestParticipateChampionship(long id);
 
 }
