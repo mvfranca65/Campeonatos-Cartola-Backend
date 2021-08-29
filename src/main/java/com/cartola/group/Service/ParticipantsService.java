@@ -11,6 +11,8 @@ public interface ParticipantsService {
 
     ResponseEntity findRequestParticipateChampionship(long id);
 
+    ResponseEntity findRequestParticipatsChampionship(long id);
+
     ResponseEntity authorizeChampionshipParticipation(long id);
 
     ResponseEntity negateChampionshipParticipation(long id);

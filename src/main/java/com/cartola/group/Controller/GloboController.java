@@ -1,6 +1,5 @@
 package com.cartola.group.Controller;
 
-import com.cartola.group.DTO.Request.Login.LoginRequestBody;
 import com.cartola.group.Service.GloboService;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import io.swagger.annotations.Api;

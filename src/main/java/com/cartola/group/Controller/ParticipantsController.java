@@ -30,9 +30,15 @@ public class ParticipantsController {
     }
 
     @GetMapping({"/solicitation/{id}"})
-    @ApiOperation(value = "Buscar os usuarios que solicitaram participar do campeonato em especifico")
+    @ApiOperation(value = "Buscar os usuarios que solicitaram participar de um campeonato em especifico")
     public ResponseEntity findRequestParticipateChampionship(@PathVariable(value = "id") long id) {
         return service.findRequestParticipateChampionship(id);
+    }
+
+    @GetMapping({"/solicitations/{id}"})
+    @ApiOperation(value = "Buscar os usuarios que solicitaram participar de um campeonato")
+    public ResponseEntity findRequestParticipatsChampionship(@PathVariable(value = "id") long id) {
+        return service.findRequestParticipatsChampionship(id);
     }
 
     @PutMapping({"/authorize/{id}"})

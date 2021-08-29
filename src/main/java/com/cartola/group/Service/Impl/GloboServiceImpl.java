@@ -1,12 +1,10 @@
 package com.cartola.group.Service.Impl;
 
-import com.cartola.group.DTO.Request.Login.LoginRequestBody;
 import com.cartola.group.Service.GloboService;
 import com.cartola.group.Service.feign.GloboFeign;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

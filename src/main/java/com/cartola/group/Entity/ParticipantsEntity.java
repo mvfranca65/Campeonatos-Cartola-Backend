@@ -25,6 +25,10 @@ public class ParticipantsEntity {
 
     private long id_championship;
 
+    @NotNull(message = "O nome do campeonato não pode ser NULL.")
+    @NotEmpty(message = "O nome do campeonato não pode estar em branco.")
+    private String name_championship;
+
     @Enumerated(value = EnumType.STRING)
     private DisputePermission dispute_permission;
 
@@ -68,4 +72,11 @@ public class ParticipantsEntity {
         this.dispute_permission = dispute_permission;
     }
 
+    public String getName_championship() {
+        return name_championship;
+    }
+
+    public void setName_championship(String name_championship) {
+        this.name_championship = name_championship;
+    }
 }

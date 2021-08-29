@@ -1,5 +1,8 @@
 package com.cartola.group.Service.Impl;
 
+import com.cartola.group.Config.JwtUtil;
+import com.cartola.group.DTO.Enum.StatusChampionship;
+import com.cartola.group.DTO.Request.NewChampionshipRequestDTO;
 import com.cartola.group.Entity.ChampionshipEntity;
 import com.cartola.group.Entity.ClashesEntity;
 import com.cartola.group.Entity.ParticipantsEntity;
@@ -29,9 +32,28 @@ public class ChampionshipServiceImpl implements ChampionshipService {
     ClashesRepository clashesRepository;
 
     @Override
-    public ResponseEntity newChampionship(ChampionshipEntity newChampionship) {
-        newChampionship.setStarted(false);
-        repository.save(newChampionship);
+    public ResponseEntity newChampionship(NewChampionshipRequestDTO newChampionship, String token) {
+        JwtUtil jwtUtil = new JwtUtil();
+
+        String id_globo = jwtUtil.getGloboId(token);
+        String user = jwtUtil.getUser(token);
+
+        ChampionshipEntity data = new ChampionshipEntity(
+                0,
+                newChampionship.getName(),
+                newChampionship.getType(),
+                newChampionship.getAccess_permission(),
+                user,
+                id_globo,
+                false,
+                newChampionship.getImage(),
+                newChampionship.getDescription(),
+                newChampionship.getId_league(),
+                newChampionship.getName_league(),
+                StatusChampionship.ATIVO
+        );
+
+        repository.save(data);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -51,7 +73,8 @@ public class ChampionshipServiceImpl implements ChampionshipService {
     public ResponseEntity deleteChampionship(long id) {
         return repository.findById(id)
                 .map(user -> {
-                    repository.deleteById(id);
+                    user.setStatus_championship(StatusChampionship.INATIVO);
+                    repository.save(user);
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
     }

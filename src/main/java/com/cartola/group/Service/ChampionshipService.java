@@ -1,11 +1,11 @@
 package com.cartola.group.Service;
 
-import com.cartola.group.Entity.ChampionshipEntity;
+import com.cartola.group.DTO.Request.NewChampionshipRequestDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface ChampionshipService {
 
-    ResponseEntity newChampionship(ChampionshipEntity newChampionship);
+    ResponseEntity newChampionship(NewChampionshipRequestDTO newChampionship, String token);
 
     ResponseEntity championshipLinkedLeague(long id);
 

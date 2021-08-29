@@ -1,6 +1,7 @@
 package com.cartola.group.Entity;
 
 import com.cartola.group.DTO.Enum.AccessPermission;
+import com.cartola.group.DTO.Enum.StatusChampionship;
 import com.cartola.group.DTO.Enum.TypeChampionship;
 
 import javax.persistence.*;
@@ -29,6 +30,10 @@ public class ChampionshipEntity {
     @NotEmpty(message = "O admin não pode estar em branco.")
     private String admin_user;
 
+    @NotNull(message = "O admin ID não pode ser NULL.")
+    @NotEmpty(message = "O admin ID não pode estar em branco.")
+    private String admin_id;
+
     private Boolean started;
 
     private byte[] image;
@@ -37,6 +42,9 @@ public class ChampionshipEntity {
 
     private long id_league;
     private String name_league;
+
+    @Enumerated(value = EnumType.STRING)
+    private StatusChampionship status_championship;
 
     public long getId() {
         return id;
@@ -117,4 +125,49 @@ public class ChampionshipEntity {
     public void setStarted(Boolean started) {
         this.started = started;
     }
+
+    public StatusChampionship getStatus_championship() {
+        return status_championship;
+    }
+
+    public void setStatus_championship(StatusChampionship status_championship) {
+        this.status_championship = status_championship;
+    }
+
+    public String getAdmin_id() {
+        return admin_id;
+    }
+
+    public void setAdmin_id(String admin_id) {
+        this.admin_id = admin_id;
+    }
+
+    public ChampionshipEntity(long id, String name, TypeChampionship type, AccessPermission access_permission, String admin_user, String admin_id, Boolean started, byte[] image, String description, long id_league, String name_league, StatusChampionship status_championship) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.access_permission = access_permission;
+        this.admin_user = admin_user;
+        this.admin_id = admin_id;
+        this.started = started;
+        this.image = image;
+        this.description = description;
+        this.id_league = id_league;
+        this.name_league = name_league;
+        this.status_championship = status_championship;
+    }
+
+//    public ChampionshipEntity(String name, TypeChampionship type, AccessPermission access_permission, String admin_user, String admin_id, Boolean started, byte[] image, String description, long id_league, String name_league, StatusChampionship status_championship) {
+//        this.name = name;
+//        this.type = type;
+//        this.access_permission = access_permission;
+//        this.admin_user = admin_user;
+//        this.admin_id = admin_id;
+//        this.started = started;
+//        this.image = image;
+//        this.description = description;
+//        this.id_league = id_league;
+//        this.name_league = name_league;
+//        this.status_championship = status_championship;
+//    }
 }

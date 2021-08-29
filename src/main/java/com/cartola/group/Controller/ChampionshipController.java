@@ -1,6 +1,6 @@
 package com.cartola.group.Controller;
 
-import com.cartola.group.Entity.ChampionshipEntity;
+import com.cartola.group.DTO.Request.NewChampionshipRequestDTO;
 import com.cartola.group.Service.ChampionshipService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,8 +21,11 @@ public class ChampionshipController {
 
     @PostMapping({"/new"})
     @ApiOperation(value = "Criar campeonato")
-    public ResponseEntity newChampionship(@RequestBody @Valid ChampionshipEntity newChampionship) {
-        return service.newChampionship(newChampionship);
+    public ResponseEntity newChampionship(
+            @RequestBody @Valid NewChampionshipRequestDTO newChampionship,
+            @RequestHeader String token
+    ) {
+        return service.newChampionship(newChampionship, token);
     }
 
     @PostMapping({"/{id}"})

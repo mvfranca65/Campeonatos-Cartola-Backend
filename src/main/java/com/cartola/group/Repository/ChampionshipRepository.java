@@ -10,13 +10,11 @@ import java.util.List;
 @Repository
 public interface ChampionshipRepository extends JpaRepository<ChampionshipEntity, Long> {
 
-    //SELECT ID, NAME, TYPE, IMAGE FROM CHAMPIONSHIP WHERE ID_LEAGUE = :id
-    @Query(value = "SELECT * FROM CHAMPIONSHIP WHERE ID_LEAGUE = :id", nativeQuery = true)
+    @Query(value = "SELECT * FROM CHAMPIONSHIP WHERE ID_LEAGUE = :id AND STATUS_CHAMPIONSHIP = 'ATIVO'", nativeQuery = true)
     List<ChampionshipEntity> findByChampionshipLinkedLeague(long id);
 
     @Query(value = "SELECT * FROM CHAMPIONSHIP WHERE ID = :id", nativeQuery = true)
     List<ChampionshipEntity> findChampionshipById(long id);
-
 
 
 //    @Query(value = "SELECT * FROM ACTIVITIES WHERE STATUS = :status", nativeQuery = true)

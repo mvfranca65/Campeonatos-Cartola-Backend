@@ -40,6 +40,11 @@ public class ParticipantsServiceImpl implements ParticipantsService {
     }
 
     @Override
+    public ResponseEntity findRequestParticipatsChampionship(long id) {
+        return null;
+    }
+
+    @Override
     public ResponseEntity authorizeChampionshipParticipation(long id) {
         return repository.findById(id)
                 .map(user -> {
