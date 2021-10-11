@@ -1,7 +1,6 @@
-package com.cartola.group.Service.Impl;
+package com.cartola.group.Service.Unirest;
 
 import com.cartola.group.DTO.Response.JwtResponseDTO;
-import com.cartola.group.Service.JwtService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -11,9 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+public class GloboRequest {
 
-    @Override
+    //É chamado em qualquer requisição feita, pois é ele que faz as validações (Token) da Globo
+    public int validationGlobo(String token) throws UnirestException {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest.get("https://api.cartolafc.globo.com/logged/time/validar-pro")
+                .header("X-GLB-Token", token)
+                .asString();
+
+        return response.getStatus();
+    }
+
+    //Traz as informações do JWT
     public ResponseEntity getJwtInformations(String token) throws UnirestException {
         Unirest.setTimeouts(0, 0);
         HttpResponse<String> response = Unirest.get("https://api.cartolafc.globo.com/auth/time/info")
@@ -32,5 +41,17 @@ public class JwtServiceImpl implements JwtService {
 
         return ResponseEntity.status(HttpStatus.OK).body(jwtDTO);
     }
+
+    //Busca todas as ligas que o usuário participa
+    public ResponseEntity getLeagues(String token) throws UnirestException {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest.get("https://api.cartolafc.globo.com/auth/ligas")
+                .header("X-GLB-Token", token)
+                .asString();
+
+        return ResponseEntity.status(response.getStatus()).body(response.getBody());
+    }
+
+
 
 }

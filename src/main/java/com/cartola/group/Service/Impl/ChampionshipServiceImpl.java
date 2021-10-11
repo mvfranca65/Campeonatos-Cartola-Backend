@@ -1,6 +1,5 @@
 package com.cartola.group.Service.Impl;
 
-import com.cartola.group.Config.JwtUtil;
 import com.cartola.group.DTO.Enum.StatusChampionship;
 import com.cartola.group.DTO.Request.NewChampionshipRequestDTO;
 import com.cartola.group.Entity.ChampionshipEntity;
@@ -33,27 +32,27 @@ public class ChampionshipServiceImpl implements ChampionshipService {
 
     @Override
     public ResponseEntity newChampionship(NewChampionshipRequestDTO newChampionship, String token) {
-        JwtUtil jwtUtil = new JwtUtil();
+//        JwtUtil jwtUtil = new JwtUtil();
+//
+//        String id_globo = jwtUtil.getGloboId(token);
+//        String user = jwtUtil.getUser(token);
 
-        String id_globo = jwtUtil.getGloboId(token);
-        String user = jwtUtil.getUser(token);
-
-        ChampionshipEntity data = new ChampionshipEntity(
-                0,
-                newChampionship.getName(),
-                newChampionship.getType(),
-                newChampionship.getAccess_permission(),
-                user,
-                id_globo,
-                false,
-                newChampionship.getImage(),
-                newChampionship.getDescription(),
-                newChampionship.getId_league(),
-                newChampionship.getName_league(),
-                StatusChampionship.ATIVO
-        );
-
-        repository.save(data);
+//        ChampionshipEntity data = new ChampionshipEntity(
+//                0,
+//                newChampionship.getName(),
+//                newChampionship.getType(),
+//                newChampionship.getAccess_permission(),
+//                user,
+//                id_globo,
+//                false,
+//                newChampionship.getImage(),
+//                newChampionship.getDescription(),
+//                newChampionship.getId_league(),
+//                newChampionship.getName_league(),
+//                StatusChampionship.ATIVO
+//        );
+//
+//        repository.save(data);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

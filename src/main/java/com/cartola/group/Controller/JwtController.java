@@ -1,6 +1,6 @@
 package com.cartola.group.Controller;
 
-import com.cartola.group.Service.JwtService;
+import com.cartola.group.Service.Unirest.GloboRequest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.*;
 public class JwtController {
 
     @Autowired
-    JwtService service;
+    GloboRequest globoRequest;
 
     @GetMapping({"/informations"})
     @ApiOperation(value = "Obter dados para criar JWT")
     public ResponseEntity getJwtInformations(@RequestHeader("X-GLB-Token") String token) throws UnirestException {
-        return service.getJwtInformations(token);
+        return globoRequest.getJwtInformations(token);
     }
 
 }

@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface GloboService {
 
-//    ResponseEntity authentication(LoginRequestBody body);
-
     ResponseEntity getLeagues(String token) throws UnirestException;
+
+    ResponseEntity getJwtInformations(String token) throws UnirestException;
 
 }
