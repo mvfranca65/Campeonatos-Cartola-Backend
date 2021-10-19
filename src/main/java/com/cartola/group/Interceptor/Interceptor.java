@@ -26,6 +26,7 @@ public class Interceptor implements HandlerInterceptor {
             int code = globoRequest.validationGlobo(request.getHeader("X-GLB-Token"));
             return responseValidation(code);
         } else {
+            //            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Não autorizado");
             return true;
         }
 

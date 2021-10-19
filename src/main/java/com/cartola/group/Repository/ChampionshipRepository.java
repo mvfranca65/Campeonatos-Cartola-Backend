@@ -11,7 +11,7 @@ import java.util.List;
 public interface ChampionshipRepository extends JpaRepository<ChampionshipEntity, Long> {
 
     @Query(value = "SELECT * FROM CHAMPIONSHIP WHERE ID_LEAGUE = :id AND STATUS_CHAMPIONSHIP = 'ATIVO'", nativeQuery = true)
-    List<ChampionshipEntity> findByChampionshipLinkedLeague(long id);
+    List<ChampionshipEntity> findActiveChampionshipById(long id);
 
     @Query(value = "SELECT * FROM CHAMPIONSHIP WHERE ID = :id", nativeQuery = true)
     List<ChampionshipEntity> findChampionshipById(long id);

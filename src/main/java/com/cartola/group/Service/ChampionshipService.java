@@ -7,9 +7,9 @@ public interface ChampionshipService {
 
     ResponseEntity newChampionship(NewChampionshipRequestDTO newChampionship, String token);
 
-    ResponseEntity championshipLinkedLeague(long id);
-
     ResponseEntity findChampionshipById(long id);
+
+    ResponseEntity findActiveChampionshipById(long id);
 
     ResponseEntity deleteChampionship(long id);
 

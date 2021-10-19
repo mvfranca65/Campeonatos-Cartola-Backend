@@ -9,12 +9,15 @@ import com.cartola.group.Repository.ChampionshipRepository;
 import com.cartola.group.Repository.ClashesRepository;
 import com.cartola.group.Repository.ParticipantsRepository;
 import com.cartola.group.Service.ChampionshipService;
+import com.cartola.group.Token.DecodeToken;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,33 +35,34 @@ public class ChampionshipServiceImpl implements ChampionshipService {
 
     @Override
     public ResponseEntity newChampionship(NewChampionshipRequestDTO newChampionship, String token) {
-//        JwtUtil jwtUtil = new JwtUtil();
-//
-//        String id_globo = jwtUtil.getGloboId(token);
-//        String user = jwtUtil.getUser(token);
 
-//        ChampionshipEntity data = new ChampionshipEntity(
-//                0,
-//                newChampionship.getName(),
-//                newChampionship.getType(),
-//                newChampionship.getAccess_permission(),
-//                user,
-//                id_globo,
-//                false,
-//                newChampionship.getImage(),
-//                newChampionship.getDescription(),
-//                newChampionship.getId_league(),
-//                newChampionship.getName_league(),
-//                StatusChampionship.ATIVO
-//        );
-//
-//        repository.save(data);
+        DecodeToken decodeToken = new DecodeToken();
+        JSONObject payload = decodeToken.payload(token);
+
+        String user = payload.getString("user");
+        String time_id = payload.getString("time_id");
+
+        ChampionshipEntity data = new ChampionshipEntity(
+                0,
+                newChampionship.getName(),
+                newChampionship.getType(),
+                user,
+                time_id,
+                false,
+                newChampionship.getImage(),
+                newChampionship.getDescription(),
+                newChampionship.getId_league(),
+                newChampionship.getName_league(),
+                StatusChampionship.ATIVO
+        );
+
+        repository.save(data);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @Override
-    public ResponseEntity championshipLinkedLeague(long id) {
-        List<ChampionshipEntity> result = repository.findByChampionshipLinkedLeague(id);
+    public ResponseEntity findActiveChampionshipById(long id) {
+        List<ChampionshipEntity> result = repository.findActiveChampionshipById(id);
         return buildResponse(result);
     }
 
@@ -68,12 +72,21 @@ public class ChampionshipServiceImpl implements ChampionshipService {
         return buildResponse(result);
     }
 
+//    @Override
+//    public ResponseEntity deleteChampionship(long id) {
+//        return repository.findById(id)
+//                .map(user -> {
+//                    user.setStatus_championship(StatusChampionship.INATIVO);
+//                    repository.save(user);
+//                    return ResponseEntity.ok().build();
+//                }).orElse(ResponseEntity.notFound().build());
+//    }
+
     @Override
     public ResponseEntity deleteChampionship(long id) {
         return repository.findById(id)
                 .map(user -> {
-                    user.setStatus_championship(StatusChampionship.INATIVO);
-                    repository.save(user);
+                    repository.deleteById(user.getId());
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
     }

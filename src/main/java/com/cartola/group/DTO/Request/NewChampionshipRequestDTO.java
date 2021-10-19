@@ -1,7 +1,7 @@
 package com.cartola.group.DTO.Request;
 
-import com.cartola.group.DTO.Enum.AccessPermission;
 import com.cartola.group.DTO.Enum.TypeChampionship;
+import jdk.jfr.Description;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,20 +12,23 @@ public class NewChampionshipRequestDTO {
 
     @NotNull(message = "O nome não pode ser NULL.")
     @NotEmpty(message = "O nome não pode estar em branco.")
+    @Description("Nome do campeonato")
     private String name;
 
     @Enumerated(value = EnumType.STRING)
+    @Description("Tipo do campeonato")
     private TypeChampionship type;
 
-    @Enumerated(value = EnumType.STRING)
-    private AccessPermission access_permission;
+    @Description("Imagem do campeonato")
+    private String image;
 
-    private byte[] image;
-
+    @Description("Descrição do campeonato")
     private String description;
 
+    @Description("ID da liga que o campeonato esta atrelado")
     private long id_league;
 
+    @Description("Nome da liga que o campeonato esta atrelado")
     private String name_league;
 
     public String getName() {
@@ -44,19 +47,11 @@ public class NewChampionshipRequestDTO {
         this.type = type;
     }
 
-    public AccessPermission getAccess_permission() {
-        return access_permission;
-    }
-
-    public void setAccess_permission(AccessPermission access_permission) {
-        this.access_permission = access_permission;
-    }
-
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

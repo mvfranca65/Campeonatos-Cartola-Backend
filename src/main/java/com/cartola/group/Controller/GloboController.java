@@ -19,9 +19,12 @@ public class GloboController {
     GloboService service;
 
     @GetMapping({"/leagues"})
-    @ApiOperation(value = "Retorna as ligas que o usuário participa")
-    public ResponseEntity getLeagues(@RequestHeader("X-GLB-Token") String token) throws UnirestException {
-        return service.getLeagues(token);
+    @ApiOperation(value = "Retorna todas as ligas que o usuário participa")
+    public ResponseEntity getLeagues(
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) throws UnirestException {
+        return service.getLeagues(globoToken);
     }
 
 }

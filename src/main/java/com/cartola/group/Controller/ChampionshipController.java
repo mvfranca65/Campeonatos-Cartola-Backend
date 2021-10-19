@@ -23,9 +23,10 @@ public class ChampionshipController {
     @ApiOperation(value = "Criar campeonato")
     public ResponseEntity newChampionship(
             @RequestBody @Valid NewChampionshipRequestDTO newChampionship,
-            @RequestHeader String token
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
     ) {
-        return service.newChampionship(newChampionship, token);
+        return service.newChampionship(newChampionship, groupToken);
     }
 
     @PostMapping({"/{id}"})
@@ -41,20 +42,31 @@ public class ChampionshipController {
 //    }
 
     @GetMapping({"/linked-league/{id}"})
-    @ApiOperation(value = "Buscar os campeonatos ligados a uma liga especifica")
-    public ResponseEntity championshipLinkedLeague(@PathVariable(value = "id") long id) {
-        return service.championshipLinkedLeague(id);
+    @ApiOperation(value = "Buscar os campeonatos ativos e ligados a uma liga especifica")
+    public ResponseEntity championshipLinkedLeague(
+            @PathVariable(value = "id") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
+        return service.findActiveChampionshipById(id);
     }
 
     @GetMapping({"/{id}"})
     @ApiOperation(value = "Buscar um campeonato por ID")
-    public ResponseEntity findChampionshipById(@PathVariable(value = "id") long id) {
+    public ResponseEntity findChampionshipById(
+            @PathVariable(value = "id") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+            ) {
         return service.findChampionshipById(id);
     }
 
     @DeleteMapping({"/{id}"})
-    @ApiOperation(value = "Excluir campeonato")
-    public ResponseEntity deleteChampionship(@PathVariable(value = "id") long id) {
+    @ApiOperation(value = "Excluir campeonato por ID")
+    public ResponseEntity deleteChampionship(
+            @PathVariable(value = "id") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken) {
         return service.deleteChampionship(id);
     }
 
