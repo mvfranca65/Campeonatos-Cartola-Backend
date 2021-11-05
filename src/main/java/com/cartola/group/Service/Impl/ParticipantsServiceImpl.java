@@ -4,6 +4,8 @@ import com.cartola.group.DTO.Enum.DisputePermission;
 import com.cartola.group.Entity.ParticipantsEntity;
 import com.cartola.group.Repository.ParticipantsRepository;
 import com.cartola.group.Service.ParticipantsService;
+import com.cartola.group.Token.DecodeToken;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +20,32 @@ public class ParticipantsServiceImpl implements ParticipantsService {
     ParticipantsRepository repository;
 
     @Override
-    public ResponseEntity newParticipateChampionship(ParticipantsEntity body) {
-        body.setDispute_permission(DisputePermission.AGUARDANDO_APROVACAO);
-        repository.save(body);
+    public ResponseEntity newParticipateChampionship(long id_championship, String name_championship, String token) {
+        DecodeToken decodeToken = new DecodeToken();
+        JSONObject payload = decodeToken.payload(token);
+
+        String user = payload.getString("user");
+        String name = payload.getString("name");
+        String idTime = payload.getString("time_id");
+
+        ParticipantsEntity participants = new ParticipantsEntity(name, user, id_championship, name_championship, DisputePermission.AGUARDANDO_APROVACAO, idTime);
+
+        repository.save(participants);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @Override
+    public ResponseEntity addBreederToLeague(long id_championship, String name_championship, String token) {
+        DecodeToken decodeToken = new DecodeToken();
+        JSONObject payload = decodeToken.payload(token);
+
+        String user = payload.getString("user");
+        String name = payload.getString("name");
+        String idTime = payload.getString("time_id");
+
+        ParticipantsEntity participants = new ParticipantsEntity(name, user, id_championship, name_championship, DisputePermission.APROVADO, idTime);
+
+        repository.save(participants);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -40,8 +65,14 @@ public class ParticipantsServiceImpl implements ParticipantsService {
     }
 
     @Override
-    public ResponseEntity findRequestParticipatsChampionship(long id) {
-        return null;
+    public ResponseEntity participateChampionshipOrNot(long id, String token) {
+        DecodeToken decodeToken = new DecodeToken();
+        JSONObject payload = decodeToken.payload(token);
+
+        String idTime = payload.getString("time_id");
+
+        List<ParticipantsEntity> result = repository.participateChampionshipOrNot(id, idTime);
+        return buildResponse(result);
     }
 
     @Override
@@ -58,8 +89,7 @@ public class ParticipantsServiceImpl implements ParticipantsService {
     public ResponseEntity negateChampionshipParticipation(long id) {
         return repository.findById(id)
                 .map(user -> {
-                    user.setDispute_permission(DisputePermission.NAO_PARTICIPANTE);
-                    repository.save(user);
+                    repository.deleteById(user.getId());
                     return ResponseEntity.ok().build();
                 }).orElse(ResponseEntity.notFound().build());
     }

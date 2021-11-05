@@ -1,17 +1,18 @@
 package com.cartola.group.Service;
 
-import com.cartola.group.Entity.ParticipantsEntity;
 import org.springframework.http.ResponseEntity;
 
 public interface ParticipantsService {
 
-    ResponseEntity newParticipateChampionship(ParticipantsEntity body);
+    ResponseEntity newParticipateChampionship(long id_championship, String name_championship, String token);
+
+    ResponseEntity addBreederToLeague(long id_championship, String name_championship, String token);
 
     ResponseEntity findParticipantsLinkedChampionship(long id);
 
     ResponseEntity findRequestParticipateChampionship(long id);
 
-    ResponseEntity findRequestParticipatsChampionship(long id);
+    ResponseEntity participateChampionshipOrNot(long id, String token);
 
     ResponseEntity authorizeChampionshipParticipation(long id);
 

@@ -16,4 +16,7 @@ public interface ParticipantsRepository extends JpaRepository<ParticipantsEntity
     @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id AND DISPUTE_PERMISSION = 'AGUARDANDO_APROVACAO'", nativeQuery = true)
     List<ParticipantsEntity> findRequestParticipateChampionship(long id);
 
+    @Query(value = "SELECT * FROM PARTICIPANTS WHERE ID_CHAMPIONSHIP = :id_championship and ID_USER = :id_user", nativeQuery = true)
+    List<ParticipantsEntity> participateChampionshipOrNot(long id_championship, String id_user);
+
 }

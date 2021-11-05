@@ -32,6 +32,8 @@ public class ParticipantsEntity {
     @Enumerated(value = EnumType.STRING)
     private DisputePermission dispute_permission;
 
+    private String id_user;
+
     public long getId() {
         return id;
     }
@@ -79,4 +81,33 @@ public class ParticipantsEntity {
     public void setName_championship(String name_championship) {
         this.name_championship = name_championship;
     }
+
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
+    }
+
+    public ParticipantsEntity(String name, String user, long id_championship, String name_championship, DisputePermission dispute_permission, String id_user) {
+        this.name = name;
+        this.user = user;
+        this.id_championship = id_championship;
+        this.name_championship = name_championship;
+        this.dispute_permission = dispute_permission;
+        this.id_user = id_user;
+    }
+
+    public ParticipantsEntity(long id, String name, String user, long id_championship, String name_championship, DisputePermission dispute_permission, String id_user) {
+        this.id = id;
+        this.name = name;
+        this.user = user;
+        this.id_championship = id_championship;
+        this.name_championship = name_championship;
+        this.dispute_permission = dispute_permission;
+        this.id_user = id_user;
+    }
+
+    public ParticipantsEntity(){}
 }

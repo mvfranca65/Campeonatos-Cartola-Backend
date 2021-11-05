@@ -9,6 +9,7 @@ import com.cartola.group.Repository.ChampionshipRepository;
 import com.cartola.group.Repository.ClashesRepository;
 import com.cartola.group.Repository.ParticipantsRepository;
 import com.cartola.group.Service.ChampionshipService;
+import com.cartola.group.Service.ParticipantsService;
 import com.cartola.group.Token.DecodeToken;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ChampionshipServiceImpl implements ChampionshipService {
+
+    @Autowired
+    ParticipantsService participantsService;
 
     @Autowired
     ChampionshipRepository repository;
@@ -56,7 +59,12 @@ public class ChampionshipServiceImpl implements ChampionshipService {
                 StatusChampionship.ATIVO
         );
 
-        repository.save(data);
+        ChampionshipEntity save = repository.save(data);
+
+        if(newChampionship.isMust_add_creator_to_players() == true) {
+            participantsService.addBreederToLeague(save.getId(), save.getName(), token);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -93,59 +101,79 @@ public class ChampionshipServiceImpl implements ChampionshipService {
 
     @Override
     public ResponseEntity startChampionship(long id) {
+
         List<ParticipantsEntity> result = repositoryParticipants.findParticipantsChampionship(id);
 
-        if(result.size() >= 8) {
+        //Validação de quantidade de jogadores
+        if(result.size() % 2 == 0 && result.size() >= 8 && result.size() <= 20) {
 
-            if(result.size() % 2 == 0) {
+            List<ClashesEntity> rodadas = new ArrayList<>();
 
-                //Quantidade de rodadas
-                Integer rodadas = result.size() - 1;
+            List<ClashesEntity> rodada = new ArrayList<>();
 
-                //Embaralhar a ordenação
-                Collections.shuffle(result);
-
-                List<ClashesEntity> todosConfrontos = new ArrayList<>();
-
-                //Todos os confrontos que devem ter no campeonato
-                for(int i = 0; i <= rodadas; i++) {
-
-                    int round = 1;
-
-                    for(int x = 0; x <= rodadas; x++) {
+            for (int i=0; i<20; i++){
+                for(int j=0; j<20; j++){
+                    if (i!=j){
 
                         ClashesEntity clashesEntity = new ClashesEntity();
 
-                        clashesEntity.setTeam_one(result.get(i).getName());
-                        clashesEntity.setName_user_team_one(result.get(i).getUser());
-                        clashesEntity.setSlug_team_one("slug " + i);
-                        clashesEntity.setImage_user_team_one("image " + i);
-                        clashesEntity.setRound_score_team_one("00.00");
 
-                        if(i != x && x > i) {
-//                            clashesEntity.setRound(round);
 
-                            clashesEntity.setTeam_two(result.get(x).getName());
-                            clashesEntity.setName_user_team_two(result.get(x).getUser());
-                            clashesEntity.setSlug_team_two("slug");
-                            clashesEntity.setImage_user_team_two("image");
-                            clashesEntity.setRound_score_team_two("00.00");
+                            if(rodada.size() == 0) {
+                                clashesEntity.setTeam_one(result.get(i).getName());
+                                clashesEntity.setName_user_team_one(result.get(i).getUser());
+                                rodada.add(clashesEntity);
+                            }
 
-                            todosConfrontos.add(clashesEntity);
+                            //Validar se já existe na esquerda
+                            for(int c = 0; c < rodada.size(); c++) {
+                                if(!rodada.get(c).getTeam_one().contains(result.get(i).getName())) {
 
-//                            clashesRepository.save(clashesEntity);
-                            round++;
-                        }
+                                    clashesEntity.setTeam_one(result.get(i).getName());
+                                    clashesEntity.setName_user_team_one(result.get(i).getUser());
+                                    rodada.add(clashesEntity);
 
+                                }
+                            }
+
+
+                            if(result.get(i).getName().contains(rodada.get(i).getTeam_one()) || result.get(j).getName().contains(rodada.get(j).getTeam_two())) {
+                                System.out.print(result.get(i).getName());
+                                System.out.print("x");
+                                System.out.println(result.get(j).getName());
+
+                            }
+
+//                            clashesEntity.setTeam_one(result.get(i).getName());
+//                            clashesEntity.setName_user_team_one(result.get(i).getUser());
+//
+//                            clashesEntity.setTeam_two(result.get(j).getName());
+//                            clashesEntity.setName_user_team_two(result.get(j).getUser());
+//
+//                            rodada.add(clashesEntity);
+//
+//
+//
+//                        clashesEntity.setTeam_one(result.get(i).getName());
+//                        clashesEntity.setName_user_team_one(result.get(i).getUser());
+//
+//                        clashesEntity.setTeam_two(result.get(j).getName());
+//                        clashesEntity.setName_user_team_two(result.get(j).getUser());
+//
+//                        System.out.print(result.get(i).getName());
+//                        System.out.print(" x ");
+//                        System.out.println(result.get(j).getName());
                     }
-
                 }
-
-                //ORGANIZAR CONFRONTOS POR RODADA
-
             }
 
+
+
+        } else {
+            //Erro por ter uma quantidade impar de players ou fora da quantidade adequada
         }
+
+
         return null;
     }
 

@@ -31,6 +31,10 @@ public class NewChampionshipRequestDTO {
     @Description("Nome da liga que o campeonato esta atrelado")
     private String name_league;
 
+    @NotNull(message = "Condição de participação do campeonato não pode ser NULL")
+    @Description("Se o criador do campeonato vai participar ou não")
+    private boolean must_add_creator_to_players;
+
     public String getName() {
         return name;
     }
@@ -77,5 +81,13 @@ public class NewChampionshipRequestDTO {
 
     public void setName_league(String name_league) {
         this.name_league = name_league;
+    }
+
+    public boolean isMust_add_creator_to_players() {
+        return must_add_creator_to_players;
+    }
+
+    public void setMust_add_creator_to_players(boolean must_add_creator_to_players) {
+        this.must_add_creator_to_players = must_add_creator_to_players;
     }
 }

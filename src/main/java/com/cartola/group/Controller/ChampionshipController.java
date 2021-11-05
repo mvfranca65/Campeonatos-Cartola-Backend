@@ -31,7 +31,11 @@ public class ChampionshipController {
 
     @PostMapping({"/{id}"})
     @ApiOperation(value = "Iniciar campeonato")
-    public ResponseEntity startChampionship(@PathVariable(value = "id") long id) {
+    public ResponseEntity startChampionship(
+            @PathVariable(value = "id") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
         return service.startChampionship(id);
     }
 

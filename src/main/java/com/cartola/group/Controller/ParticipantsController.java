@@ -1,6 +1,5 @@
 package com.cartola.group.Controller;
 
-import com.cartola.group.Entity.ParticipantsEntity;
 import com.cartola.group.Service.ParticipantsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,37 +18,62 @@ public class ParticipantsController {
 
     @PostMapping({"/new"})
     @ApiOperation(value = "Solicitar participação de um campeonato em especifico.")
-    public ResponseEntity newParticipateChampionship(@RequestBody ParticipantsEntity body) {
-        return service.newParticipateChampionship(body);
+    public ResponseEntity newParticipateChampionship(
+            @RequestParam long id_championship,
+            @RequestParam String name_championship,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
+        return service.newParticipateChampionship(id_championship, name_championship, groupToken);
     }
 
-    @GetMapping({"/{id}"})
+    @GetMapping({"/{id_championship}"})
     @ApiOperation(value = "Buscar os participantes de campeonato especifico")
-    public ResponseEntity findParticipantsLinkedChampionship(@PathVariable(value = "id") long id) {
+    public ResponseEntity findParticipantsLinkedChampionship(
+            @PathVariable(value = "id_championship") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
         return service.findParticipantsLinkedChampionship(id);
     }
 
     @GetMapping({"/solicitation/{id}"})
     @ApiOperation(value = "Buscar os usuarios que solicitaram participar de um campeonato em especifico")
-    public ResponseEntity findRequestParticipateChampionship(@PathVariable(value = "id") long id) {
+    public ResponseEntity findRequestParticipateChampionship(
+        @PathVariable(value = "id") long id,
+        @RequestHeader("X-GLB-Token") String globoToken,
+        @RequestHeader("Authorization") String groupToken
+    ) {
         return service.findRequestParticipateChampionship(id);
     }
 
-    @GetMapping({"/solicitations/{id}"})
-    @ApiOperation(value = "Buscar os usuarios que solicitaram participar de um campeonato")
-    public ResponseEntity findRequestParticipatsChampionship(@PathVariable(value = "id") long id) {
-        return service.findRequestParticipatsChampionship(id);
+    @GetMapping({"/participate-or-not/{id_championship}"})
+    @ApiOperation(value = "Verifica se o usuario participa ou não de um campeonato em especifico")
+    public ResponseEntity participateChampionshipOrNot(
+            @PathVariable(value = "id_championship") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
+        return service.participateChampionshipOrNot(id, groupToken);
     }
 
     @PutMapping({"/authorize/{id}"})
     @ApiOperation(value = "Autorizar usuário a participar do campeonato em especifico")
-    public ResponseEntity authorizeChampionshipParticipation(@PathVariable(value = "id") long id) {
+    public ResponseEntity authorizeChampionshipParticipation(
+        @PathVariable(value = "id") long id,
+        @RequestHeader("X-GLB-Token") String globoToken,
+        @RequestHeader("Authorization") String groupToken
+    ) {
         return service.authorizeChampionshipParticipation(id);
     }
 
-    @PutMapping({"/negate/{id}"})
+    @DeleteMapping({"/negate/{id}"})
     @ApiOperation(value = "Negar a participação de um usuario no campeonato em especifico")
-    public ResponseEntity negateChampionshipParticipation(@PathVariable(value = "id") long id) {
+    public ResponseEntity negateChampionshipParticipation(
+            @PathVariable(value = "id") long id,
+            @RequestHeader("X-GLB-Token") String globoToken,
+            @RequestHeader("Authorization") String groupToken
+    ) {
         return service.negateChampionshipParticipation(id);
     }
 
